@@ -66,8 +66,8 @@ Other potentially useful functions:
 vbox_vm_multistart.start_all_vms(vms=vms)
 vbox_vm_multistart.kill_all_vms(vms=vms)
 
-vbox_vm_multistart.start_vm(vm[0])
-vbox_vm_multistart.kill_vm(vm[0]["name"])
+vbox_vm_multistart.start_vm(vms[0])
+vbox_vm_multistart.kill_vm(vms[0]["name"])
 ```
 Example output:
 ```commandline
