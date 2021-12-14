@@ -13,6 +13,7 @@ from pathlib import Path
 import tempfile, os
 from getpass import getpass
 import vbox_vm_multistart
+from vbox_vm_multistart import VBoxVM
 
 # Set a VBoxManage.exe path other than default (this is the default)
 vbox_path = Path("C:/Program Files/Oracle/VirtualBox")
@@ -30,25 +31,12 @@ temp_file = tempfile.NamedTemporaryFile(delete=False)
 temp_file.write(bytes(password, encoding="UTF-8"))
 temp_file.close()
 
-# List of VMs.
+# List of VBoxVM objects.
 vms = [
-    {
-        "name": "vm-1",
-        "headless": True,
-        "encrypted": True,
-        "password_file": temp_file
-    },
-    {
-        "name": "vm-2",
-        "headless": False,
-        "encrypted": True,
-        "password_file": temp_file
-    },
-    {
-        "name": "vm-3",
-        # "headless" defaults to False.
-        # Other options are optional.
-    }
+    VBoxVM(name="vm-1", headless=True, encrypted=True, password_file=temp_file),
+    VBoxVM(name="vm-2", encrypted=True, password_file=temp_file),
+    # "headless" & "encrypted" default to False, "password_file" not needed unless encrypted.
+    VBoxVM(name="vm-3")
 ]
 
 try:
@@ -66,8 +54,8 @@ Other potentially useful functions:
 vbox_vm_multistart.start_all_vms(vms=vms)
 vbox_vm_multistart.kill_all_vms(vms=vms)
 
-vbox_vm_multistart.start_vm(vms[0])
-vbox_vm_multistart.kill_vm(vms[0]["name"])
+vms[0].start()
+vms[0].kill()
 ```
 Example output:
 ```commandline
