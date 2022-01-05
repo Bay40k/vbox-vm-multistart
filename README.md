@@ -1,4 +1,4 @@
-# vbox-vm-multistart
+# vbox_vm_multistart
 
 This script allows you to easily launch multiple encrypted VMs in VirtualBox.
 
