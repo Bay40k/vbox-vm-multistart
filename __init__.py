@@ -1,4 +1,5 @@
 import tempfile
+import threading
 from pathlib import Path
 import sys
 from loguru import logger
@@ -19,6 +20,16 @@ class VBoxVM:
     headless: bool = False
     encrypted: bool = False
     password_file: tempfile._TemporaryFileWrapper = None
+
+    def start_new_thread(self) -> threading.Thread:
+        """
+        Starts self but in a new thread
+        :return: threading.Thread
+        """
+
+        thread = threading.Thread(target=self.start)
+        thread.start()
+        return thread
 
     def start(self):
         """
@@ -104,12 +115,17 @@ def kill_all_vms(vms: List[VBoxVM]):
 
 def start_all_vms(vms: List[VBoxVM]):
     """
+    Starts all VMs, new thread for each VBoxManage instance
     :param vms: List of VBoxVM.
     :param vms: List of VMs.
     :return: None
     """
+    threads = []
     for vm in vms:
-        vm.start()
+        threads.append(vm.start_new_thread())
+
+    for thread in threads:
+        thread.join()
 
 
 def enable_logging(log_level: str = "INFO", log_format: str = default_log_format):
