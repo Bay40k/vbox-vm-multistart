@@ -4,6 +4,8 @@ This script allows you to easily launch multiple encrypted VMs in VirtualBox.
 
 ##### Installation:
 ```python
+git clone https://github.com/Bay40k/vbox_vm_multistart
+cd vbox_vm_multistart
 pip install -r requirements.txt
 ```
 
